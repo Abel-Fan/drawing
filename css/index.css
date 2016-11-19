@@ -1,0 +1,36 @@
+
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;padding: 0;
+}
+canvas{
+    background:#ccc;
+    cursor:default;
+}
+.box{
+    width:1000px;height:500px;
+    text-align: center;
+    margin-top:50px;
+    margin-left:50px;
+    box-shadow: 0 0 10px #000;
+    position: relative;
+}
+.small{
+    width:90px;height:100%;
+    position:absolute;top:0;right:-100px;
+    background: lightseagreen;
+    box-shadow:1px 0 5px lightseagreen;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+.small div{
+    width:90%;height:30px;
+    margin: 10px auto;
+    background: azure;
+    text-align: center;
+    line-height: 30px;
+    cursor:pointer;
+}

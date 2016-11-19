@@ -4,80 +4,52 @@
     <meta charset="UTF-8">
     <title>Document</title>
 </head>
-<style>
-    body{
-        margin:0;padding: 0;
-    }
-    canvas{
-        background:#ccc;
-    }
-    .box{
-        width:500px;height:500px;
-        /*margin:auto;*/
-        position:relative;
-        cursor:default;
-    }
-    .box .nav{
-        height:100%;width:50px;
-        background: darkseagreen;
-        position:absolute;
-        top:0;right:-50px;
-
-    }
-    .box .nav div{
-        margin-top:5px;
-        width:50px;height:50px;
-        background: rgba(0,0,0,0.7);
-        text-align: center;
-        line-height: 50px;
-        color:#fff;
-    }
-</style>
 <script>
     window.onload = function(){
+        var color = document.getElementById("color");
         var canvas = document.querySelector("canvas");
         var cobj = canvas.getContext("2d");
-        var box = document.getElementsByClassName("box")[0];
-        var by = box.scrollHeight;
-        var bx = box.scrollWidth;
-        var zx = document.getElementsByClassName("zx")[0];
-        var qx = document.getElementsByClassName("qx")[0];
-        var falg = true;
-
-
-        zx.onclick = function(){
-            falg =false;
-
-        };
         var arr = [];
-        box.onmousedown = function(e){
-            if(falg){
-                return false;
-            }
-            var sx = e.clientX;
-            var sy = e.clientY;
+        var colorVlue = color.value;
+
+        //颜色 color
+        color.onchange = function(){
+            colorVlue = color.value;
+        };
+
+        //画直线
+        canvas.onmousedown = function(e){
+            var sx = e.offsetX;
+            var sy = e.offsetY;
             var mx = 0;
             var my = 0;
-
-            box.onmousemove = function(e){
-                cobj.clearRect(0,0,500,500);
+            canvas.onmousemove = function(e){
+                cobj.clearRect(0,0,canvas.width,canvas.height);
                 if(arr.length>0){
                     cobj.putImageData(arr[arr.length-1],0,0)
                 }
-                box.style.cursor="crosshair";
-                mx = e.clientX;
-                my = e.clientY;
-
+                mx = e.offsetX;
+                my = e.offsetY;
+//                cobj.beginPath();
+//                cobj.fillStyle=colorVlue;
+//                cobj.strokeStyle = colorVlue;
+//                cobj.lineWidth=10;
+//                cobj.strokeRect(sx,sy,mx-sx,my-sy);
+//                cobj.fillRect(sx,sy,mx-sx,my-sy);
+//                cobj.strokeStyle = colorVlue;
+//                cobj.moveTo(sx,sy);
+//                cobj.lineTo(mx,my);
+//                cobj.stroke();
                 cobj.beginPath();
-                cobj.moveTo(sx,sy);
-                cobj.lineTo(mx,my);
+                cobj.strokeStyle = colorVlue;
+                cobj.fillRect(sx,sy,mx-sx,my-sy);
+                cobj.closePath();
                 cobj.stroke();
             };
-            box.onmouseup = function(e){
+            canvas.onmouseup = function(e){
                 arr.push(cobj.getImageData(0,0,canvas.width,canvas.height));
-                box.style.cursor="default";
-                box.onmousemove = null;
-                box.onmouseup = null;
+                canvas.onmousemove = null;
+                canvas.onmouseup = null;
             }
         };
 
@@ -91,13 +63,12 @@
 </script>
 <body>
 <div class="box">
-    <div class="nav">
-        <div class="zx">直线</div>
-        <div class="qx">曲线</div>
+    <div class="small">
+        <div><input type="color" id="color"></div>
+        <div>直线</div>
+        <div>曲线</div>
     </div>
-    <canvas width="500" height="500">
-
-    </canvas>
+    <canvas width="1000" height="500"></canvas>
 </div>
 </body>
 </html>

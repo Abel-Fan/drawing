@@ -16,7 +16,7 @@
     cobj.fillRect(x,y,w,h)
 ## 对于canvas图像的修饰
 1. 对于填充的样式的修饰
-  1.1 fillStyle `可以用来设置canvas图像的样式填充，接收表示颜色的值，也可以接收渐变的对象和html对象`
+  1.1    `可以用来设置canvas图像的样式填充，接收表示颜色的值，也可以接收渐变的对象和html对象`
   1.2 createLinearGradient(x1,y1,x2,y2) `用来创建线性渐变的对象，接收4个参数分别是:起始点的坐标x1,y1以及结束点的坐标x2,y2`
   1.3 addColorStop() `设置颜色以及颜色停靠的位置，需要用线性渐变来调用，如果有多个渐变，多次调用该方法`
   1.4 createRadialGradient(r1,) `用来设置径向渐变,参数分别为第一个圆与第二个圆的位置以及大小`
@@ -31,4 +31,30 @@
   4.1 canvas里面的颜色设置 可以用四种方式，分别为：关键字/16进制/rgb/rgba
   4.2 canvas坐标系统 元素的左上角为原点，y轴越往下越大
   4.3 canvas线条的渲染方式，由中心点向两边延伸
-##划线
+## 画线
+  beginPath()       开始(证明画一个独立的线段)
+  strokeStyle = "red" 样式
+  lineWidth = 10;   线条宽度
+  moveTo()          确定一个起始点
+  lineTo(1,1)       划线
+  stroke()
+  clearRect(0,0,canvas.width,canvas.height)       清空过程,四个参数
+## 画矩形 (填充)
+  beginPath()   开始
+  fillStyle()   填充样式
+  fillRect(0,0,width,height);  画矩形
+  closePath();
+## 画矩形 (线段)
+  beginPath()   开始
+  strokeStyle()  线段颜色
+  lineWidth()    线段宽度
+  strokeRect(0,0,width,height);  画矩形
+  closePath();
+## 画矩形 (填充/线段)
+  beginPath()   开始
+  style = "";
+  lineWidth();
+  rect();
+  closePath();
+## getImageData(0,0,canvas.width,canvas.height);putImageData(0,0,)   纪录像素  四个参数
+## 
