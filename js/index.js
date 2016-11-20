@@ -2,29 +2,60 @@ window.onload = function(){
     var color = document.getElementById("color");
     var canvas = document.querySelector("canvas");
     var cobj = canvas.getContext("2d");
+    var shades = document.querySelector(".shades");
+    var eraser = document.querySelector(".eraser");
     var arr = [];
     var colorVlue="red";
-    var obj = new shape(canvas,cobj);
+    var obj = new shape(canvas,cobj,shades,eraser);
     //颜色 color
     color.onchange = function(){
         colorVlue = color.value;
         obj.color = colorVlue;
+        obj.draw();
     };
 
     $(".small>div").mousedown(function(){
         var bb = $(this).attr("aa");
+        eraser.style.display="none";
         if(bb){
-            obj.type = bb;
+            if(bb=="pencil"){
+                obj.pencil();
+            }else if(bb=="cx"){
+                obj.cx();
+            }else if(bb=="bc"){
+                obj.bc();
+            }else if(bb=="xj"){
+                obj.xj();
+            }else if(bb=="er"){
+                obj.er();
+            }else{
+                obj.type = bb;
+                obj.draw();
+            }
+
         }
     });
 
+    //线条大小
     var size = document.querySelector(".size");
     size.onchange=function(){
         obj.lineWidth = size.value;
+        obj.draw();
     };
 
-    obj.fill ="fill";
-    obj.draw();
+
+    //填充
+    $(".fill").change(function(){
+       obj.fill=$(this).val()=="fill"?"fill":"stroke";
+    });
+
+    //边数
+    var bianNum = document.querySelector(".bianNum");
+    bianNum.onchange=function(){
+        obj.bianNum = bianNum.value;
+        obj.draw();
+    };
+
 
 
 

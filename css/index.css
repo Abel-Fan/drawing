@@ -20,6 +20,7 @@ canvas{
 .small{
     width:90px;height:100%;
     position:absolute;top:0;right:-100px;
+    /*overflow: auto;*/
     background: lightseagreen;
     box-shadow:1px 0 5px lightseagreen;
     user-select: none;
@@ -28,9 +29,25 @@ canvas{
 }
 .small div{
     width:90%;height:30px;
-    margin: 10px auto;
+    margin: 5px auto;
     background: azure;
     text-align: center;
     line-height: 30px;
     cursor:pointer;
+}
+.shades{
+    width:100%;height:500px;
+    position:absolute;
+    top:0;left:0;
+    z-index: 999;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+.eraser{
+    width:50px;height:50px;
+    position:absolute;
+    top:10px;left:10px;
+    border:1px dashed #000;
+    display: none;
 }
