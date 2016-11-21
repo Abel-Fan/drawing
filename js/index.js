@@ -4,9 +4,12 @@ window.onload = function(){
     var cobj = canvas.getContext("2d");
     var shades = document.querySelector(".shades");
     var eraser = document.querySelector(".eraser");
+    var select = document.querySelector(".select");
+
     var arr = [];
     var colorVlue="red";
-    var obj = new shape(canvas,cobj,shades,eraser);
+    var falg = true;
+    var obj = new shape(canvas,cobj,shades,eraser,select);
     //颜色 color
     color.onchange = function(){
         colorVlue = color.value;
@@ -28,6 +31,8 @@ window.onload = function(){
                 obj.xj();
             }else if(bb=="er"){
                 obj.er();
+            }else if(bb=="se"){
+                obj.se();
             }else{
                 obj.type = bb;
                 obj.draw();
@@ -46,7 +51,12 @@ window.onload = function(){
 
     //填充
     $(".fill").change(function(){
-       obj.fill=$(this).val()=="fill"?"fill":"stroke";
+        if(falg){
+            obj.fill="fill";
+            falg = false;
+        }else{
+            obj.fill="stroke";
+        }
     });
 
     //边数
@@ -55,10 +65,6 @@ window.onload = function(){
         obj.bianNum = bianNum.value;
         obj.draw();
     };
-
-
-
-
 
 
 

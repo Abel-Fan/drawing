@@ -1,8 +1,9 @@
-function shape(canvas,cobj,shades,eraser){
+function shape(canvas,cobj,shades,eraser,select){
     this.canvas = canvas;
     this.cobj = cobj;
     this.shades = shades;
     this.eraser = eraser;
+    this.select = select;
     this.width = canvas.width;
     this.height = canvas.height;
     this.color = "#000"; //默认填充颜色
@@ -11,8 +12,11 @@ function shape(canvas,cobj,shades,eraser){
     this.lineWidth = 1; //边框大小
     this.fill = "stroke";  //是否填充
     this.bianNum = 6;
-    this.falg = true;
-    this.eraserWidth = 100;
+    this.jiaoNum = 5;
+    this.falg = true;    //是否第一次擦出
+    this.falg2 = true;    //选择
+    this.eraserWidth = 100;  //橡皮的大小
+    this.selectImg="";
 }
 
 shape.prototype = {
@@ -188,5 +192,94 @@ shape.prototype = {
                 }
             }
         }
+    },
+    jiao:function(x1,y1,x2,y2){
+        this.init();
+        var x = x2-x1;
+        var y = y2-y1;
+        var R = Math.sqrt(x*x+y*y);
+        var r = R/2;
+        var angle = 2*Math.PI/(this.bianNum*2);
+        var x3,y3;
+        for(var i=0;i<(this.bianNum*2);i++){
+            if(i%2==0){
+                x3 = Math.cos(angle*i)*R;
+                y3 = Math.sin(angle*i)*R;
+            }else{
+                x3 = Math.cos(angle*i)*r;
+                y3 = Math.sin(angle*i)*r;
+            }
+            this.cobj.lineTo(x2+x3,y2+y3);
+        }
+        this.cobj.closePath();
+        this.cobj[this.fill]();
+    },
+    se:function(){
+        var falg2 = this.falg2;
+        this.init();
+        var that = this;
+        var width = 0,height=0;
+        if(this.history.length>0){
+            this.shades.onmousedown = function(e){
+
+                var tops = e.offsetY;
+                var lefts = e.offsetX;
+                if(that.falg2){
+                    this.onmousemove = function(e){
+                        that.select.style.display = "block";
+                        that.select.style.top = tops+"px";
+                        that.select.style.left = lefts+"px";
+                        width = e.offsetX-lefts;
+                        height = e.offsetY-tops;
+                        that.select.style.width = width+"px";
+                        that.select.style.height = height+"px";
+                    };
+                    this.onmouseup = function(){
+                        that.selectImg=that.cobj.getImageData(lefts,tops,width,height);
+                        that.cobj.clearRect(lefts,tops,width,height);
+                        that.history.push(that.cobj.getImageData(0,0,that.width,that.height));
+                        that.cobj.putImageData(that.history[that.history.length-2],0,0);
+                        this.onmousemove=null;
+                        this.onmouseup = null;
+                        that.falg2 = false;
+                    };
+                }else{
+                    that.shades.onmousemove=function(e){
+                        var left1 = e.offsetX-width/2;
+                        var top1 = e.offsetY-height/2;
+                        that.cobj.clearRect(0,0,that.width,that.height);
+                        that.cobj.putImageData(that.history[that.history.length-1],0,0);
+
+                        if(left1<0){
+                            left1=0;
+                        }
+                        if(top1<0){
+                            top1=0;
+                        }
+                        if(left1>=that.width-width){
+                            left1=that.width-width;
+                        }
+                        if(top1>that.height-height){
+                            top1=that.height-height;
+                        }
+                        that.cobj.putImageData(that.selectImg,left1,top1);
+                        that.select.style.top = top1+"px";
+                        that.select.style.left = left1+"px";
+                    };
+                    that.shades.onmouseup=function(){
+                        that.history.push(that.cobj.getImageData(0,0,that.width,that.height));
+                        that.selectImg="";
+                        that.shades.onmousemove=null;
+                        that.shades.onmouseup=null;
+                        that.falg2=true;
+                        that.select.style.display="none";
+                        that.select.style.width=0;
+                        that.select.style.heihgt=0;
+                    }
+                }
+            };
+
+        }
+
     }
 };

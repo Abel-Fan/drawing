@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<style>
+    canvas{
+        background:#ccc;
+    }
+</style>
+<script>
+    window.onload = function(){
+        var canvas = document.querySelector("canvas");
+        var cobj = canvas.getContext("2d");
+        var img = document.querySelector("img");
+        cobj.drawImage(img,0,0,200,276);
+
+        function msk(cobj,width,height){
+            var numX = 40; //一行马赛克个数
+            var numY = 40; //一列马赛克个数
+            var w = width/numX;   //马赛克的width
+            var h = height/numY;   //马赛克的height
+
+            var num = w*h;    //马赛克的宽高积
+            for(var i=0;i<numX;i++){
+                for(var j=0;j<numY;j++){
+                    var r= 0,b= 0,g=0;
+                    var data= cobj.getImageData(j*w,i*h,w,h);
+                    for(var k=0;k<data.width*data.height;k++){
+                        r += data.data[k*4+0];
+                        g += data.data[k*4+1];
+                        b += data.data[k*4+2];
+                    }
+                    r = parseInt(r/(data.width*data.height));
+                    g = parseInt(g/(data.width*data.height));
+                    b = parseInt(b/(data.width*data.height));
+                    for(var k=0;k<data.width*data.height;k++){
+                        data.data[k*4+0] = r;
+                        data.data[k*4+1] = g;
+                        data.data[k*4+2] = b;
+                    }
+                    cobj.putImageData(data,200+w*j,h*i);
+                }
+            }
+
+        }
+        msk(cobj,200,276);
+
+    }
+</script>
+<body>
+<canvas width="1000" height="500"></canvas>
+<img src="img/gaoyuanyuan.jpg" alt="" hidden>
+</body>
+</html>
