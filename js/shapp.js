@@ -4,8 +4,8 @@ function shape(canvas,cobj,shades,eraser,select){
     this.shades = shades;
     this.eraser = eraser;
     this.select = select;
-    this.width = canvas.width;
-    this.height = canvas.height;
+    this.width = $(window).width();
+    this.height = $(window).height();
     this.color = "#000"; //默认填充颜色
     this.history = [];  //历史纪录
     this.type = "line"; //形状  rect line

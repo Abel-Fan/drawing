@@ -66,6 +66,19 @@ window.onload = function(){
         obj.draw();
     };
 
+    //图片
+    var file = document.querySelector(".file");
+    var img = document.querySelector(".img");
+    file.onchange = function(){
+        console.dir(this.files[0]);
+        console.dir(this.value);
+        if(this.value.indexOf("jpg")!=-1||this.value.indexOf("png")!=-1){
+            img.src = this.value;
+            //cobj.putImageData(value,200,200);
+        }else{
+            alert("请打开png,jpg格式文件");
+        }
+    }
 
 
 };
